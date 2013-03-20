@@ -1,0 +1,6 @@
+development:
+  sessions:
+    default:
+      database: github-analyzer
+      hosts:
+        - localhost:27017
