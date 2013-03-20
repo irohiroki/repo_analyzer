@@ -18,7 +18,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+  repo_analyzer
+
+Or, in the root directory,
+
+  irb -Ilib -rrepo_analyzer
 
 ## Contributing
 
