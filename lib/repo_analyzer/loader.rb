@@ -16,7 +16,7 @@ module RepoAnalyzer
       self.octokit_client = Octokit::Client.new(login: user, password: password)
     end
 
-    def fetch(options = {})
+    def load_repositories(options = {})
       octokit_client.all_repositories(options).each do |repo|
         repo[:github_id] = repo[:id]
         Repository.create repo
