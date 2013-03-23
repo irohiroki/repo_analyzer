@@ -22,5 +22,18 @@ module RepoAnalyzer
         Repository.create repo
       end
     end
+
+    def load_repository(repo_key)
+      repo_hash = octokit_client.repository(repo_key)
+      repo_hash[:loaded_at] = Time.now
+
+      repo = Repository.where(github_id: repo_hash[:id]).first
+      if repo
+        repo.update_attributes(repo_hash)
+      else
+        repo_hash[:github_id] = repo_hash[:id]
+        Repository.create repo_hash
+      end
+    end
   end
 end
