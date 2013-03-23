@@ -1,5 +1,5 @@
 module RepoAnalyzer
-  module ClientUtil
+  module LoaderUtil
     def fetch_upto(id_end)
       loop do
         last = Repository.last

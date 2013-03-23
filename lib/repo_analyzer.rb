@@ -4,7 +4,7 @@ require 'irby' unless $0 == 'irb'
 require 'mongoid'
 require 'Octokit'
 
-require 'repo_analyzer/client'
+require 'repo_analyzer/loader'
 require 'repo_analyzer/repository'
 
 ENV['MONGOID_ENV'] ||= 'development'

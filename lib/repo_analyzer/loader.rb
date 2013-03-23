@@ -1,8 +1,8 @@
-require 'repo_analyzer/client_util'
+require 'repo_analyzer/loader_util'
 
 module RepoAnalyzer
-  class Client
-    include ClientUtil
+  class Loader
+    include LoaderUtil
 
     attr_accessor :octokit_client
 
