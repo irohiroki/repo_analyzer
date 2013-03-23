@@ -1,5 +1,9 @@
+require 'repo_analyzer/client_util'
+
 module RepoAnalyzer
   class Client
+    include ClientUtil
+
     attr_accessor :octokit_client
 
     def initialize
@@ -16,15 +20,6 @@ module RepoAnalyzer
       octokit_client.all_repositories(options).each do |repo|
         repo[:github_id] = repo[:id]
         Repository.create repo
-      end
-    end
-
-    def fetch_upto(id_end)
-      loop do
-        last = Repository.last
-        break if last.github_id >= id_end
-        $stderr.puts "fetch since #{last.github_id}..."
-        fetch since: last.github_id
       end
     end
   end
