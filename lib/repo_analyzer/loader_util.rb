@@ -14,7 +14,13 @@ module RepoAnalyzer
       repos.each do |repo|
         unless repo[:loaded_at]
           $stderr.print '.'
-          load_repository(repo.full_name)
+          begin
+            load_repository(repo.full_name)
+          rescue StandardError => e
+            $stderr.puts "\n" + e.message
+            sleep 1
+            redo
+          end
         end
       end
       $stderr.puts
