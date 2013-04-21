@@ -5,7 +5,13 @@ module RepoAnalyzer
         last = Repository.last
         break if last.github_id >= id_end
         $stderr.puts "fetch since #{last.github_id}..."
-        repos = load_repositories since: last.github_id
+        begin
+          repos = load_repositories since: last.github_id
+        rescue StandardError => e
+          $stderr.puts e.message
+          sleep 1
+          redo
+        end
         if repos.empty?
           $stderr.puts "no more repository."
           break
