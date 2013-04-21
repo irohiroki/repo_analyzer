@@ -18,11 +18,38 @@ Or install it yourself as:
 
 ## Usage
 
-  repo_analyzer
+### Launch
+
+    repo_analyzer
 
 Or, in the root directory,
 
-  irb -Ilib -rrepo_analyzer
+    bundle install
+    bundle exec irb -Ilib -rrepo_analyzer
+
+### Load repositories
+
+To load first 100 repositories into your local database,
+
+    loader = RepoAnalyzer::Loader.new
+    loader.load_repositories
+
+it accepts `since` option, which is a starting repository id (exclusive.)
+
+    loader.load_repositories(since: 100)
+
+There are some utility methods. See: lib/repo_analyzer/loader_util.rb.
+
+### Inspect
+
+`Repository` is a document class for repositories.
+
+    repo = RepoAnalyzer::Repository.where(language: 'Ruby').first
+
+with `pp`,
+
+    require 'pp'
+    pp repo.attributes
 
 ## Contributing
 
