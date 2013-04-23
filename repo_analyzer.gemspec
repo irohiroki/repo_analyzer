@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "irby"
+  spec.add_dependency "metric_abc"
   spec.add_dependency "mongoid"
   spec.add_dependency "octokit"
 
