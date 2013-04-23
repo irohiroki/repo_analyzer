@@ -29,7 +29,9 @@ module RepoAnalyzer
           rescue StandardError => e
             message = e.message
             $stderr.puts "\n" + message
-            unless /404: Not Found/ === message
+            if /404: Not Found/ === message
+              repo.destroy
+            else
               sleep 1
               redo
             end
