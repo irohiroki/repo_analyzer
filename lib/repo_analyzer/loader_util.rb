@@ -27,9 +27,12 @@ module RepoAnalyzer
           begin
             load_repository(repo.full_name)
           rescue StandardError => e
-            $stderr.puts "\n" + e.message
-            sleep 1
-            redo
+            message = e.message
+            $stderr.puts "\n" + message
+            unless /404: Not Found/ === message
+              sleep 1
+              redo
+            end
           end
         end
       end
