@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "irby"
   spec.add_dependency "metric_abc"
+  spec.add_dependency "metric_fu-roodi"
   spec.add_dependency "mongoid"
   spec.add_dependency "octokit"
 
