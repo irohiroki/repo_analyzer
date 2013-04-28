@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "flog"
   spec.add_dependency "irby"
   spec.add_dependency "metric_abc"
   spec.add_dependency "metric_fu-roodi"
