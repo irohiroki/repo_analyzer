@@ -1,3 +1,5 @@
+require 'metric_abc/invalid_code'
+
 module RepoAnalyzer
   class Abc
     # bundle exec ruby -Ilib -rrepo_analyzer/abc -e "puts RepoAnalyzer::Abc.measure('/path/to/root').inspect"
@@ -19,6 +21,9 @@ module RepoAnalyzer
           abc_measured_at: Time.now.utc,
         }
       end
+    rescue MetricABC::InvalidCode => e
+      $stderr.puts '!!! Invalid code !!!'
+      {invalid_code: true}
     end
 
     class Line
