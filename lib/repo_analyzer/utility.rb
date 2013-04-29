@@ -2,6 +2,7 @@ module RepoAnalyzer
   module Utility
     def analyze(repos)
       repos.each do |repo|
+        $stderr.puts repo.full_name
         repo.with_tree do |tree|
           if File.exist?("#{tree}/lib")
             [Abc, CyclomaticComplexity, Flog].each do |metric|
