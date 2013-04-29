@@ -3,8 +3,12 @@ module RepoAnalyzer
     def analyze(repos)
       repos.each do |repo|
         repo.with_tree do |tree|
-          [Abc, CyclomaticComplexity, Flog].each do |metric|
-            metric.measure(tree).each{|k, v| repo[k] = v }
+          if File.exist?("#{tree}/lib")
+            [Abc, CyclomaticComplexity, Flog].each do |metric|
+              metric.measure(tree).each{|k, v| repo[k] = v }
+            end
+          else
+            repo[:skipped] = true
           end
         end
         repo.save
