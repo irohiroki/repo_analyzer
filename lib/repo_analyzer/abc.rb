@@ -1,15 +1,15 @@
-require 'metric_abc/invalid_code'
-
 module RepoAnalyzer
   class Abc
     # bundle exec ruby -Ilib -rrepo_analyzer/abc -e "puts RepoAnalyzer::Abc.measure('/path/to/root').inspect"
     def self.measure(root, round = 2)
+      lines = []
       IO.popen("cd #{root} && metric_abc `find lib -name '*.rb'`") do |f|
-        lines = []
         while l = f.gets
           lines << Line.new(l)
         end
+      end
 
+      if lines.any?
         total   = lines.map(&:point).inject(&:+)
         average = (total.to_f / lines.size).round(round)
         worst   = lines.sort_by(&:point).last
@@ -20,10 +20,9 @@ module RepoAnalyzer
           abc_worst_method: worst.method,
           abc_measured_at: Time.now.utc,
         }
+      else
+        {invalid_code: true}
       end
-    rescue MetricABC::InvalidCode => e
-      $stderr.puts '!!! Invalid code !!!'
-      {invalid_code: true}
     end
 
     class Line
