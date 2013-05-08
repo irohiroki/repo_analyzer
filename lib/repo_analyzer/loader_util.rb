@@ -2,8 +2,9 @@ module RepoAnalyzer
   module LoaderUtil
     def load_repositories_upto(id_end)
       loop do
-        last = Repository.last
+        last = Repository.where(:github_id.lte => id_end).asc(:github_id).last
         break if last.github_id >= id_end
+        to_read = id_end - last.github_id
         $stderr.puts "fetch since #{last.github_id}..."
         begin
           repos = load_repositories since: last.github_id
@@ -14,6 +15,9 @@ module RepoAnalyzer
         end
         if repos.empty?
           $stderr.puts "no more repository."
+          break
+        end
+        if repos.size >= to_read
           break
         end
       end
