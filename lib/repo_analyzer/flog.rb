@@ -18,7 +18,7 @@ module RepoAnalyzer
         end
 
         average = parse_point(f.gets)
-        raise 'No code to measure' if average.zero?
+        return {skipped: 'flog'} if average.zero?
         f.gets # discard blank line
         worst_line = f.gets
 

@@ -26,16 +26,20 @@ module RepoAnalyzer
 
     def self.measure(root, round = 2)
       methods = Dir.glob("#{root}/lib/**/*.rb").map{|filename| check_file(filename) }.flatten
-      total   = methods.map(&:count).inject(&:+)
-      average = (total.to_f / methods.size).round(round)
-      worst   = methods.sort_by(&:count).last
+      if methods.any?
+        total   = methods.map(&:count).inject(&:+)
+        average = (total.to_f / methods.size).round(round)
+        worst   = methods.sort_by(&:count).last
 
-      {
-        cc_average: average,
-        cc_worst: worst.count,
-        cc_worst_method: worst.location,
-        cc_measured_at: Time.now.utc,
-      }
+        {
+          cc_average: average,
+          cc_worst: worst.count,
+          cc_worst_method: worst.location,
+          cc_measured_at: Time.now.utc,
+        }
+      else
+        {skipped: 'cc'}
+      end
     end
 
     def self.check_file(filename)

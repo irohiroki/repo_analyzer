@@ -7,7 +7,7 @@ module RepoAnalyzer
           if File.exist?("#{tree}/lib")
             [Abc, CyclomaticComplexity, Flog].each do |metric|
               result = metric.measure(tree).each{|k, v| repo[k] = v }
-              break if result[:invalid_code]
+              break if result[:invalid_code] || result[:skipped]
             end
           else
             repo[:skipped] = true
