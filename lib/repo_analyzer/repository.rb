@@ -4,5 +4,8 @@ module RepoAnalyzer
 
     include Mongoid::Document
     include Tree
+
+    scope :pristine, ->{ where(flog_worst: nil).where(skipped: nil).where(invalid_code: nil) }
+    scope :ruby, ->{ where(language: 'Ruby') }
   end
 end
