@@ -10,7 +10,7 @@ module RepoAnalyzer
           HTTPClient.new.get_content(archive_uri) {|content| archive.write(content) }
         rescue StandardError => e
           $stderr.puts e.message
-          return
+          return e
         ensure
           archive.close
         end

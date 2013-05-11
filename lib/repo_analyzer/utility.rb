@@ -3,7 +3,7 @@ module RepoAnalyzer
     def analyze(repos)
       repos.each do |repo|
         $stderr.puts repo.full_name
-        repo.with_tree do |tree|
+        res = repo.with_tree do |tree|
           if File.exist?("#{tree}/lib")
             [Abc, CyclomaticComplexity, Flog].each do |metric|
               result = metric.measure(tree).each{|k, v| repo[k] = v }
@@ -12,6 +12,9 @@ module RepoAnalyzer
           else
             repo[:skipped] = true
           end
+        end
+        if StandardError === res
+          repo[:skipped] = 'http'
         end
         repo.save
       end
