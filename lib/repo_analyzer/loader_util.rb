@@ -33,8 +33,14 @@ module RepoAnalyzer
           rescue StandardError => e
             message = e.message
             $stderr.puts "\n" + message
-            if /404: Not Found/ === message
+            case message
+            when /404: Not Found/
               repo.destroy
+            when /403: Repository access blocked/
+              repo[:loaded_at] = Time.now
+              repo[:skipped] = '403: Repository access blocked'
+              repo.save
+              next
             else
               sleep 1
               redo
